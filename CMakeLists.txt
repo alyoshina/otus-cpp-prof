@@ -15,8 +15,20 @@ target_include_directories(helloworld_cli PRIVATE
     "${CMAKE_BINARY_DIR}"
     src
 )
+
+find_package(GTest REQUIRED)
+
+add_executable(test_version 
+    test/main.cpp)
+
+target_link_libraries(test_version GTest::gtest)
+
+target_include_directories(test_version PRIVATE
+    "${CMAKE_BINARY_DIR}"
+    test
+)
     
-set_target_properties(helloworld_cli PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+set_target_properties(helloworld_cli test_version PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
 
 install(TARGETS helloworld_cli RUNTIME DESTINATION bin)
 
@@ -30,3 +42,6 @@ set(CPACK_PACKAGE_CONTACT example@example.com)
 
 include(CPack)
 
+enable_testing()
+
+add_test(test_in_test_version test_version)
