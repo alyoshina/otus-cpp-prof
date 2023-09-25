@@ -10,14 +10,14 @@ void print(IpPoolType& ip_pool) {
             if (ip_part != begin) {
                 std::cout << ".";
             }
-            std::cout << *ip_part;
+            std::cout << +*ip_part;
         }
         std::cout << std::endl;
     }
 }
 
-IpType split(const std::string &str, char d) {
-    IpType r;
+std::vector<std::string> split(const std::string &str, char d) {
+    std::vector<std::string> r;
     std::string::size_type start = 0;
     std::string::size_type stop = str.find_first_of(d);
     while(stop != std::string::npos) {
@@ -30,33 +30,30 @@ IpType split(const std::string &str, char d) {
 }
 
 void sort(IpPoolType& ip_pool) {
-    auto ip_compare = [](IpType l, IpType r) {
-        auto is_eq = [](auto& lhs, auto& rhs) { return std::atoi(lhs.c_str()) == std::atoi(rhs.c_str()); };
-        auto comp = [](auto& lhs, auto& rhs) { return std::atoi(lhs.c_str()) > std::atoi(rhs.c_str()); };
-        for (auto l_it = l.cbegin(), r_it = r.cbegin(), end = l.cend(); l_it != end; ++l_it, ++r_it) {
-            if (!is_eq(*l_it, *r_it)) {
-                return comp(*l_it, *r_it);
-            }
-        }
+    std::sort(ip_pool.begin(), ip_pool.end(), [](IpType& lhs, IpType& rhs) {
+        if (lhs != rhs) return lhs > rhs;
         return false;
-    };
-    std::sort(ip_pool.begin(), ip_pool.end(), ip_compare);
+    });
 }
 
 IpPoolType filter(IpPoolType& ip_pool, const std::string &str) {
-    IpType expr = split(str, '.');
-    while (!expr.empty() && expr.back() == "*") {
-        expr.pop_back();
+    std::vector<std::string> expr_str = split(str, '.');
+    while (!expr_str.empty() && expr_str.back() == "*") {
+        expr_str.pop_back();
     }
+    std::vector<std::uint16_t> expr(expr_str.size());
+    std::transform(expr_str.cbegin(), expr_str.cend(), expr.begin(), [](auto& val) {
+        if (val == "*") return NOT_IP_NUMBER;
+        return static_cast<std::uint16_t>(std::atoi(val.c_str()));
+    });
     
     IpPoolType result;
     std::copy_if(ip_pool.begin(), ip_pool.end(), std::back_inserter(result), [&expr](const IpType& ip){
-        auto is_eq = [](auto& lhs, auto& rhs)->bool { return std::atoi(lhs.c_str()) == std::atoi(rhs.c_str()); };
         auto ip_end = ip.cend();
-        auto expr_end = expr.cend();
-        for (auto it = expr.cbegin(), ip_it = ip.cbegin(); it != expr_end && ip_it != ip_end; ++it, ++ip_it) {
-            if (*it != "*") {
-                if (!is_eq(*it, *ip_it)) {
+        auto ip_it = ip.cbegin();
+        for (auto it = expr.cbegin(), expr_end = expr.cend(); it != expr_end && ip_it != ip_end; ++it, ++ip_it) {
+            if (*it < NOT_IP_NUMBER) {
+                if (*it != *ip_it) {
                     return false;
                 }
             }
@@ -66,13 +63,13 @@ IpPoolType filter(IpPoolType& ip_pool, const std::string &str) {
     return result;
 }
 
-IpPoolType filter(IpPoolType& ip_pool, const std::vector<std::string>& v) {
+IpPoolType filter(IpPoolType& ip_pool, const std::vector<std::uint8_t>& v) {
     IpPoolType result;
     std::copy_if(ip_pool.begin(), ip_pool.end(), std::back_inserter(result), [&v](const IpType& ip){
             for (const auto& el : v) {
                 if (std::any_of(ip.begin(), ip.end(), [&el] (auto& val) { 
                                 return [](auto& lhs, auto& rhs) { 
-                                    return std::atoi(lhs.c_str()) == std::atoi(rhs.c_str()); 
+                                    return lhs == rhs; 
                                 } (val, el); })) {
                     return true;
                 }
