@@ -30,10 +30,7 @@ std::vector<std::string> split(const std::string &str, char d) {
 }
 
 void sort(IpPoolType& ip_pool) {
-    std::sort(ip_pool.begin(), ip_pool.end(), [](IpType& lhs, IpType& rhs) {
-        if (lhs != rhs) return lhs > rhs;
-        return false;
-    });
+    std::sort(ip_pool.begin(), ip_pool.end(), std::greater{});
 }
 
 IpPoolType filter(IpPoolType& ip_pool, const std::string &str) {
@@ -76,6 +73,12 @@ IpPoolType filter(IpPoolType& ip_pool, const std::vector<std::uint8_t>& v) {
             }
             return false;
         } );
+    return result;
+}
+
+IpPoolType filter(IpPoolType& ip_pool, const std::function<bool(const IpType& ip)>lambda) {
+    IpPoolType result;
+    std::copy_if(ip_pool.begin(), ip_pool.end(), std::back_inserter(result), lambda);
     return result;
 }
 }

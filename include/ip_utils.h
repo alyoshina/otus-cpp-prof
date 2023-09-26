@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <array>
+#include <functional>
 
 namespace IpUtils {
 
@@ -18,4 +19,5 @@ std::vector<std::string> split(const std::string &str, char d);
 void sort(IpPoolType& ip_pool);
 IpPoolType filter(IpPoolType& ip_pool, const std::string &str);
 IpPoolType filter(IpPoolType& ip_pool, const std::vector<std::uint8_t>& v);
+IpPoolType filter(IpPoolType& ip_pool, const std::function<bool(const IpType& ip)>lambda);
 }

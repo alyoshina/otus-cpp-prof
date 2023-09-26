@@ -23,19 +23,28 @@ int main(int argc, char const *argv[])
 
         //filter by first byte and output
         {
-            IpPoolType f = filter(ip_pool, std::string("1.*.*.*"));
+            //IpPoolType f = filter(ip_pool, std::string("1.*.*.*"));
+            IpPoolType f = filter(ip_pool, [](const IpType& ip ) { return ip[0] == 1; });
             print(f);
         }
         //filter by first byte and output
         {
-            IpPoolType f = filter(ip_pool, std::string("46.70.*"));
+            //IpPoolType f = filter(ip_pool, std::string("46.70.*"));
+            IpPoolType f = filter(ip_pool, [](const IpType& ip ) { return ip[0] == 46 && ip[1] == 70; });
             print(f);
         }
         //filter by any byte and output
         {
             //std::vector<std::uint8_t> v{46, 29};
-            std::vector<std::uint8_t> v{46};
-            IpPoolType f = filter(ip_pool, v);
+            //std::vector<std::uint8_t> v{46};
+            //IpPoolType f = filter(ip_pool, v);
+            IpPoolType f = filter(ip_pool, [](const IpType& ip ) {
+                bool ret_val = false;
+                for (auto& ip_n: ip) {
+                    ret_val = ret_val || (ip_n == 46);
+                }
+                return ret_val; 
+            });
             print(f);
         }
     } catch(const std::exception &e) {
