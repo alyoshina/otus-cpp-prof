@@ -12,6 +12,7 @@ public:
 
     std::size_t size() const override;
     T& operator[] (std::size_t pos) const override;
+    bool empty() const override;
 
 protected:
     class INode {
@@ -35,6 +36,11 @@ protected:
 
 public:
     struct Iterator {
+        using iterator_category = std::forward_iterator_tag;
+        using value_type = T;
+        using difference_type = std::ptrdiff_t;
+        using pointer = T*;
+        using reference = T&;
         Iterator operator=(const Iterator& rhs) const {
             return Iterator{.data = rhs.data};
         };
@@ -45,7 +51,10 @@ public:
         bool operator!=(const Iterator& rhs) const {
             return data != rhs.data;
         };
-        T operator*() const {
+        bool operator==(const Iterator& rhs) const {
+            return data == rhs.data;
+        };
+        reference operator*() const {
             return data->data();
         };
         T get() const {

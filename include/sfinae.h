@@ -51,16 +51,25 @@ struct PrintContainer {
     template <typename U = T>
     std::enable_if_t<details::is_map_v<std::remove_reference_t<U>>>
     print() {
-        for (const auto& [k, v] : container) {
-            std::cout << k << " " << v << std::endl;
+        if (!container.empty()) { 
+            auto& pair = *container.begin();
+            std::cout << pair.first << " " << pair.second;
+            std::for_each(std::next(container.begin()), container.end(), [] (const auto& pair) {
+                std::cout << ", " << pair.first << " " << pair.second;
+            });
+            std::cout << std::endl;
         }
     }
 
     template <typename U = T>
     std::enable_if_t<not details::is_map_v<std::remove_reference_t<U>>>
     print() {
-        for (const auto v : container) {
-            std::cout << v << std::endl;
+        if (!container.empty()) {
+            std::cout << *container.begin();
+            std::for_each(std::next(container.begin()), container.end(), [] (auto& value) {
+                std::cout << ", " << value;
+            });
+            std::cout << std::endl;
         }
     }
 

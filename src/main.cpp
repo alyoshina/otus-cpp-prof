@@ -3,34 +3,11 @@
 #include "pool.h"
 #include "list.h"
 
+//#include "out_operator_for_container.h"
+
 #include <iostream>
 #include <map>
 
-/*
-#include <list>
-#include <algorithm>
-namespace details {
-    template <typename T>
-    struct is_container: std::false_type {};
-
-    // partial specializations for vector
-    template <typename T, typename Alloc>
-    struct is_container<std::vector<T, Alloc>>: std::true_type {};
-
-} // details
-
-template <class Container, class = std::enable_if_t<details::is_container<Container>::value>>
-std::ostream& operator<<(std::ostream& os, const Container& container) {
-
-    if (!container.empty()) {
-        std::cout << *container.begin();
-        std::for_each(std::next(container.begin()), container.end(), [] (auto& value) {
-            std::cout << ", " << value;
-        });
-    }
-    return os;
-}
-*/
 
 const int BLOK_SIZE = 10;
 using MapAlloc = Mem::Allocator<std::pair<const int, int>, BLOK_SIZE>;
@@ -50,6 +27,29 @@ int main(int argc, char const *argv[])
 
         l_pc.print();
         l_alloc_pc.print();
+
+        // std::cout << details::is_container_map<std::map<int, int>>::value << std::endl; //out 1
+        // std::cout << details::is_container<std::map<int, int>>::value << std::endl; //out 0
+        // std::cout << details::is_container_map<List<int>>::value << std::endl; //out 0
+        // std::cout << details::is_container<List<int>>::value << std::endl; //out 1
+        /*
+        {
+            std::map<int, int> m;
+            for (int i = 0; i < 10; ++i) {
+                m[i] = fact(i);
+            }
+            std::cout << m << std::endl;
+        }
+        */
+        /*
+        {
+            List<int, ListAlloc> l;
+            for (int i = 0; i < 10; ++i) {
+                l.push_back(fact(i));
+            }
+            std::cout << l << std::endl;
+        }
+        */
     } catch(const std::exception &e) {
         std::cerr << e.what() << std::endl;
     }

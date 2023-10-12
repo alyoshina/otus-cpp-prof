@@ -15,6 +15,11 @@ std::size_t IList<T>::size() const {
 }
 
 template <typename T>
+bool IList<T>::empty() const {
+    return m_size == 0;
+}
+
+template <typename T>
 void IList<T>::move(IList<T>* rhs) {
     m_first = rhs->m_first;
     rhs->m_first = nullptr;
