@@ -3,16 +3,16 @@ cmake_minimum_required(VERSION 3.16.3)
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
-project(ip_filter VERSION ${PROJECT_VERSION})
+project(allocator VERSION ${PROJECT_VERSION})
 
 configure_file(version.h.in version.h)
 
-add_executable(ip_filter 
+add_executable(allocator 
     src/main.cpp
-    src/ip_utils.cpp
+    src/factorial.cpp
 )
 
-target_include_directories(ip_filter PRIVATE
+target_include_directories(allocator PRIVATE
     "${CMAKE_BINARY_DIR}"
     src
     include
@@ -20,23 +20,23 @@ target_include_directories(ip_filter PRIVATE
 
 find_package(GTest REQUIRED)
 
-add_executable(ip_test 
+add_executable(allocator_test 
     test/main.cpp
-    test/ip_utils_test.cpp
-    src/ip_utils.cpp
+    test/alloc_test.cpp
+    src/factorial.cpp
 )
 
-target_link_libraries(ip_test GTest::gtest)
+target_link_libraries(allocator_test GTest::gtest)
 
-target_include_directories(ip_test PRIVATE
+target_include_directories(allocator_test PRIVATE
     "${CMAKE_BINARY_DIR}"
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
     "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )
     
-set_target_properties(ip_filter ip_test PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+set_target_properties(allocator allocator_test PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
 
-install(TARGETS ip_filter RUNTIME DESTINATION bin)
+install(TARGETS allocator RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 
@@ -50,4 +50,4 @@ include(CPack)
 
 enable_testing()
 
-add_test(tests ip_test)
+add_test(tests allocator_test)
