@@ -5,7 +5,6 @@
 #include "list.h"
 
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include <stdio.h>
 #include <map>
 
