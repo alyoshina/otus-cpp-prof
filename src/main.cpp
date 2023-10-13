@@ -2,12 +2,10 @@
 #include "sfinae.h"
 #include "pool.h"
 #include "list.h"
-
-//#include "out_operator_for_container.h"
+#include "container_utils.h"
 
 #include <iostream>
 #include <map>
-
 
 const int BLOK_SIZE = 10;
 using MapAlloc = Mem::Allocator<std::pair<const int, int>, BLOK_SIZE>;
@@ -16,6 +14,7 @@ using ListAlloc = Mem::Allocator<int, BLOK_SIZE>;
 int main(int argc, char const *argv[])
 {
     try {
+#if 1
         PrintContainer <std::map<int, int>> m_pc;
         PrintContainer <std::map<int, int, std::less<int>, MapAlloc>> m_alloc_pc;
 
@@ -27,29 +26,26 @@ int main(int argc, char const *argv[])
 
         l_pc.print();
         l_alloc_pc.print();
-
-        // std::cout << details::is_container_map<std::map<int, int>>::value << std::endl; //out 1
-        // std::cout << details::is_container<std::map<int, int>>::value << std::endl; //out 0
-        // std::cout << details::is_container_map<List<int>>::value << std::endl; //out 0
-        // std::cout << details::is_container<List<int>>::value << std::endl; //out 1
-        /*
+#else
         {
             std::map<int, int> m;
-            for (int i = 0; i < 10; ++i) {
-                m[i] = fact(i);
-            }
+            std::map<int, int, std::less<int>, MapAlloc> alloc_m;
+            factorial_fill(m);
+            factorial_fill(alloc_m);
             std::cout << m << std::endl;
+            std::cout << alloc_m << std::endl;
         }
-        */
-        /*
+        
         {
-            List<int, ListAlloc> l;
-            for (int i = 0; i < 10; ++i) {
-                l.push_back(fact(i));
-            }
+            List<int> l;
+            List<int, ListAlloc> alloc_l;
+            factorial_fill(l);
+            factorial_fill(alloc_l);
             std::cout << l << std::endl;
+            std::cout << alloc_l << std::endl;
         }
-        */
+#endif
+        
     } catch(const std::exception &e) {
         std::cerr << e.what() << std::endl;
     }
