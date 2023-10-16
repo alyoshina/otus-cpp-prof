@@ -16,10 +16,15 @@ namespace details {
     template <typename Key, typename T, typename Less, typename Alloc>
     struct is_container_map<std::map<Key, T, Less, Alloc>>: std::true_type {};
 
+    template <typename T, typename U = void>
+    using IfContainer = std::enable_if_t<details::is_container<T>::value, U>;
+    template <typename T, typename U = void>
+    using IfMap = std::enable_if_t<details::is_container_map<T>::value, U>;
+
 } // details
 
-template <typename Container, typename = std::enable_if_t<details::is_container<Container>::value>>
-std::ostream& operator<<(std::ostream& os, const Container& container) {
+template <typename Container>
+details::IfContainer<Container, std::ostream&> operator<<(std::ostream& os, const Container& container) {
     if (!container.empty()) {
         std::cout << *container.begin();
         std::for_each(std::next(container.begin()), container.end(), [] (auto& value) {
@@ -29,8 +34,8 @@ std::ostream& operator<<(std::ostream& os, const Container& container) {
     return os;
 }
 
-template <typename Container, typename F = void, typename = std::enable_if_t<details::is_container_map<Container>::value>>
-std::ostream& operator<<(std::ostream& os, const Container& container) {
+template <typename Container>
+details::IfMap<Container, std::ostream&> operator<<(std::ostream& os, const Container& container) {
     if (!container.empty()) { 
         auto& pair = *container.begin();
         std::cout << pair.first << " " << pair.second;
@@ -42,16 +47,14 @@ std::ostream& operator<<(std::ostream& os, const Container& container) {
 }
 
 template <typename Container>
-std::enable_if_t<details::is_container_map<Container>::value>
-factorial_fill(Container& container, const int n = 10) {
+details::IfMap<Container> factorial_fill(Container& container, const int n = 10) {
     for (int i = 0; i < n; ++i) {
         container[i] = fact(i);
     }
 }
 
 template <typename Container>
-std::enable_if_t<details::is_container<Container>::value>
-factorial_fill(Container& container, const int n = 10) {
+details::IfContainer<Container> factorial_fill(Container& container, const int n = 10) {
     for (int i = 0; i < n; ++i) {
         container.push_back(fact(i));
     }
