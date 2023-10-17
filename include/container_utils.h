@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <map>
+#include <list>
 
 namespace details {
     template <typename T>
@@ -9,6 +10,9 @@ namespace details {
 
     template <typename T, typename Alloc>
     struct is_container<List<T, Alloc>>: std::true_type {};
+
+    template <typename T, typename Alloc>
+    struct is_container<std::list<T, Alloc>>: std::true_type {};
 
     template <typename T>
     struct is_container_map: std::false_type {};

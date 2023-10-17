@@ -10,7 +10,7 @@ class List : public IList <T> {
 public:
     List();
     List(std::initializer_list <T> l);
-    List(const List& other);
+    List(List& other);
     List(List&& other);
     virtual ~List();
 
@@ -51,7 +51,10 @@ protected:
     using AllocTraits = std::allocator_traits<Allocator>;
     using NodeAllocator = typename AllocTraits::template rebind_alloc<Node>;
     using NodeAllocTraits = typename AllocTraits::template rebind_traits<Node>;
-    NodeAllocator node_alloc;
+    using allocator_type = NodeAllocator;
+
+    allocator_type node_alloc;
+    allocator_type &get_allocator() { return node_alloc; }
 };
 
 #include "list.ipp"

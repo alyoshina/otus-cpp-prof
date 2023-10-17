@@ -64,7 +64,8 @@ public:
     };
 
     Iterator begin() const {return Iterator{.data = m_first};};
-    Iterator end() const {return Iterator{.data = m_last->next()};};
+    Iterator end() const {return m_last ? Iterator{.data = m_last->next()} 
+                                : Iterator{.data = nullptr};};
 };
 
 #include "ilist.ipp"

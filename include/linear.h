@@ -2,13 +2,14 @@
 
 #include <typeinfo>
 #include <vector>
+#include <iostream>
 
 namespace Mem {
 
 template <typename T>
 class Linear {
 public:
-    Linear(std::size_t s) : max_size(s) { }
+    Linear(std::size_t s) : max_size(s) { std::cout << "Linear()" << std::endl; }
     ~Linear() { dealloc(); }
     T* get(const std::size_t n);
     void away(T* p, std::size_t n) { }

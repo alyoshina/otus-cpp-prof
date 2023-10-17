@@ -11,6 +11,7 @@ const int BLOK_SIZE = 10;
 using MapAlloc = Mem::Allocator<std::pair<const int, int>, BLOK_SIZE>;
 using ListAlloc = Mem::Allocator<int, BLOK_SIZE>;
 
+#include <list>
 int main(int argc, char const *argv[])
 {
     try {

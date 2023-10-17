@@ -13,13 +13,14 @@ List<T, Allocator>::List(std::initializer_list <T> l) : IList<T>() {
 }
 
 template <typename T, typename Allocator>
-List<T, Allocator>::List(const List& other) : IList<T>(){
-    //*this = other;
+List<T, Allocator>::List(List& other) : IList<T>()
+    , node_alloc(std::allocator_traits<allocator_type>::select_on_container_copy_construction(other.get_allocator())) {
+    *this = other;
 }
 
 template <typename T, typename Allocator>
 List<T, Allocator>::List(List&& other) : IList<T>() {
-    //*this = std::move(other);
+    *this = std::move(other);
 }
 
 template <typename T, typename Allocator>
@@ -44,23 +45,25 @@ void List<T, Allocator>::clear() {
 
 template <typename T, typename Allocator>
 List<T, Allocator>& List<T, Allocator>::operator=(const List<T, Allocator>& rhs) {
-    // if (&rhs != this) {
-    //     List<T> temp;
-    //     typename IList<T>::INode* rhs_node = rhs.m_first;
-    //     for (std::size_t i = 0; i < rhs.m_size; ++i, rhs_node = rhs_node->next()) {
-    //         temp.push_back(rhs_node->data());
-    //     }
-    //     *this = std::move(temp);
-    // }
+    if (&rhs != this) {
+        clear();
+        typename IList<T>::INode* rhs_node = rhs.m_first;
+        for (std::size_t i = 0; i < rhs.m_size; ++i, rhs_node = rhs_node->next()) {
+            this->push_back(rhs_node->data());
+        }
+    }
     return *this;
 }
 
 template <typename T, typename Allocator>
 List<T, Allocator>& List<T, Allocator>::operator=(List<T, Allocator>&& rhs) {
-    // if (&rhs != this) {
-    //     clear();
-    //     this->move(&rhs);
-    // }
+    if (&rhs != this) {
+        clear();
+        this->move(&rhs);
+        if (this->get_allocator() != rhs.get_allocator()) {
+            this->node_alloc = std::move(rhs.get_allocator());
+        }        
+    }
     return *this;
 }
 
