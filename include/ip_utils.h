@@ -31,6 +31,12 @@ constexpr bool is_tuple_v = is_tuple<T...>::value;
 
 } //details
 
+/**
+* @brief right shift value
+*
+* @param[in] parent value for right shift
+* @param[in] parent number of shift positions
+*/
 template <typename T>
 auto shift_r(T v, std::size_t n) -> std::enable_if_t<std::is_integral_v<T>, int16_t> {
     T temp = v >> n;
