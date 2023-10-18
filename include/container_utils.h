@@ -30,9 +30,9 @@ namespace details {
 template <typename Container>
 details::IfContainer<Container, std::ostream&> operator<<(std::ostream& os, const Container& container) {
     if (!container.empty()) {
-        std::cout << *container.begin();
-        std::for_each(std::next(container.begin()), container.end(), [] (auto& value) {
-            std::cout << ", " << value;
+        os << *container.begin();
+        std::for_each(std::next(container.begin()), container.end(), [&os] (auto& value) {
+            os << ", " << value;
         });
     }
     return os;
@@ -42,9 +42,9 @@ template <typename Container>
 details::IfMap<Container, std::ostream&> operator<<(std::ostream& os, const Container& container) {
     if (!container.empty()) { 
         auto& pair = *container.begin();
-        std::cout << pair.first << " " << pair.second;
-        std::for_each(std::next(container.begin()), container.end(), [] (const auto& pair) {
-            std::cout << ", " << pair.first << " " << pair.second;
+        os << pair.first << " " << pair.second;
+        std::for_each(std::next(container.begin()), container.end(), [&os] (const auto& pair) {
+            os << ", " << pair.first << " " << pair.second;
         });
     }
     return os;
