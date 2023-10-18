@@ -5,10 +5,7 @@
 using namespace ip_utils;
 
 /**
- * @brief project for print ip
- *
- * test bla bla
- *
+ * @brief print_ip is called with different types
  */
 int main(int argc, char const *argv[])
 {
@@ -18,10 +15,8 @@ int main(int argc, char const *argv[])
         print_ip(int32_t{2130706433});
         print_ip(int64_t{8875824491850138409});
         print_ip(std::string{"Hello, World!"});
-        //print_ip("Hello, World!"); // Hello, World!
         print_ip(std::vector<int>{100, 200, 300, 400});
         print_ip(std::list<short>{400, 300, 200, 100});
-        //print_ip(std::vector<int8_t>{-1, 6, 5, -1});
         print_ip(std::make_tuple(123, 456, 789, 0));
     } catch(const std::exception &e) {
         std::cerr << e.what() << std::endl;
