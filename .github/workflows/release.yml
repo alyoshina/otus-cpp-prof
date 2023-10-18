@@ -1,4 +1,4 @@
-name: 'C++ CI and Documentation'
+name: 'Documentation generation CI'
 
 on:
   push:
@@ -12,12 +12,11 @@ jobs:
     permissions: write-all
     steps:
       - uses: actions/checkout@v2
-      - run: sudo apt-get update -y && sudo apt-get install doxygen -y
       - name: Doxygen Action
-        uses: mattnotmitt/doxygen-action@v1.1.0
+        uses: mattnotmitt/doxygen-action@v1.3.1
         with:
           doxyfile-path: ./Doxyfile
-          working-directory: .
+          working-directory: '.'
       - name: GH Pages Deployment
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -56,6 +55,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ip_filter-0.0.${{ github.run_number }}-Linux.deb
-          asset_name: ip_filter-0.0.${{ github.run_number }}-Linux.deb
+          asset_path: ./print_ip-0.0.${{ github.run_number }}-Linux.deb
+          asset_name: print_ip-0.0.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
