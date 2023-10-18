@@ -1,12 +1,32 @@
-name: 'C++ CI'
+name: 'C++ CI and Documentation'
 
 on:
   push:
     branches:
-      - 2hw
+      - 4hw
   workflow_dispatch:
 
 jobs:
+  build-documentation:
+    runs-on: ubuntu-20.04
+    permissions: write-all
+    steps:
+      - uses: actions/checkout@v2
+      - run: sudo apt-get update -y && sudo apt-get install doxygen -y
+      - name: Doxygen Action
+        uses: mattnotmitt/doxygen-action@v1.1.0
+        with:
+          doxyfile-path: ./Doxyfile
+          working-directory: .
+      - name: GH Pages Deployment
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./doc/html/
+          enable_jekyll: false
+          allow_empty_commit: false
+          force_orphan: true
+          publish_branch: 4hw
   build:
     runs-on: ubuntu-20.04
     permissions: write-all
