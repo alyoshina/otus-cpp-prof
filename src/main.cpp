@@ -16,17 +16,42 @@ int main(int argc, char const *argv[])
 {
     try {
 #if 1
-        PrintContainer <std::map<int, int>> m_pc;
-        PrintContainer <std::map<int, int, std::less<int>, MapAlloc>> m_alloc_pc;
+        // using MAP = std::map<int, int, std::less<int>, MapAlloc>;
+        // MAP a;
+        // MAP b;
+        // a[1] = 1;
+        // b = a;
+        // b[2] = 2;
+        // std::cout << "b: "<< b << std::endl;
+        using List_ = List<int, ListAlloc>;
+        List_ a;
+        a.push_back(1);
+        List_ b(a);
+        b.push_back(2);
+        std::cout << "b: "<< b << std::endl;
 
-        PrintContainer <List<int>> l_pc;
-        PrintContainer <List<int, ListAlloc>> l_alloc_pc;
+        // std::list<int, ListAlloc> l1;
+        // l1.push_back(1);
+        // std::list<int, ListAlloc> l2 = l1;
+        // l2.push_back(2);
+        // std::list<int, ListAlloc> l3;
+        // l3 = l2;
+        // l3.push_back(4);
+        // std::cout << "l1: "<< l1 << std::endl;
+        // std::cout << "l2: "<< l2 << std::endl;
+        // std::cout << "l3: "<< l3 << std::endl;
 
-        m_pc.print();
-        m_alloc_pc.print();
+        // PrintContainer <std::map<int, int>> m_pc;
+        // PrintContainer <std::map<int, int, std::less<int>, MapAlloc>> m_alloc_pc;
 
-        l_pc.print();
-        l_alloc_pc.print();
+        // PrintContainer <List<int>> l_pc;
+        // PrintContainer <List<int, ListAlloc>> l_alloc_pc;
+
+        // m_pc.print();
+        // m_alloc_pc.print();
+
+        // l_pc.print();
+        // l_alloc_pc.print();
 #else
         {
             std::map<int, int> m;

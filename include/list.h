@@ -10,7 +10,7 @@ class List : public IList <T> {
 public:
     List();
     List(std::initializer_list <T> l);
-    List(List& other);
+    List(const List& other);
     List(List&& other);
     virtual ~List();
 
@@ -54,6 +54,7 @@ protected:
     using allocator_type = NodeAllocator;
 
     allocator_type node_alloc;
+
     allocator_type &get_allocator() { return node_alloc; }
 };
 

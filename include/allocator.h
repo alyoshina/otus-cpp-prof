@@ -13,27 +13,21 @@ class Allocator {
 public:
     using value_type = T;
 
-    Allocator() noexcept : pool(std::make_shared<P<T>>(SIZE)) { }
+    Allocator() noexcept : pool(std::make_shared<P<T>>(SIZE)) {std::cout << "Allocator()" << std::endl; }
 
-    // template <typename U, std::size_t S = SIZE>
-    // Allocator(Allocator<U, S>&other) : pool(other.pool) { 
-    //     std::cout << "Allocator(Allocator<U, S>&other)" << std::endl;
-    // }
-    // template <typename U, std::size_t S = SIZE>
-    // Allocator(const Allocator<U, S>&other) noexcept { 
-    //     if (!pool) {
-    //         std::cout << "!pool" << std::endl;
-    //     } else {
-    //         std::cout << "pool" << std::endl;
-    //     }
-    //     std::cout << "Allocator(const Allocator<U, S>&other)" << std::endl;
-    // }
+    template<typename U>
+    Allocator(const Allocator<U, SIZE, P>& other) noexcept /*: pool(std::make_shared<P<U>>(SIZE)) */ {
+        std::cout << "const Allocator<U, SIZE, P>& other" << std::endl;
+        //pool = std::make_shared<P<U>>(SIZE);
+        //pool = other.pool;
+    }
 
     template <typename U>
-    Allocator(const Allocator<U, SIZE, P>&&other) noexcept : pool(std::make_shared<P<U>>(SIZE)) { 
-        //std::cout << "Allocator(&&)" << std::endl;
+    Allocator(Allocator<U, SIZE, P>&&other) noexcept : pool(std::make_shared<P<U>>(SIZE)) { 
+        std::cout << "Allocator<U, SIZE, P>&& other" << std::endl;
         if (other.pool) {
             pool = std::move(other.pool);
+            other.pool = nullptr;
         }
     }
 
@@ -63,11 +57,13 @@ public:
     // }
 
     Allocator& operator= (const Allocator& other) { 
+        std::cout << "operator= (const Allocator& other)" << std::endl;
         pool = other.pool;
         return *this;
     }
 
     Allocator& operator= (Allocator&& other) { 
+        std::cout << "operator= (Allocator&& other)" << std::endl;
         pool = std::move(other.pool);
         other.pool = nullptr;
         return *this;

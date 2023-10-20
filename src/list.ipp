@@ -13,8 +13,8 @@ List<T, Allocator>::List(std::initializer_list <T> l) : IList<T>() {
 }
 
 template <typename T, typename Allocator>
-List<T, Allocator>::List(List& other) : IList<T>()
-    , node_alloc(std::allocator_traits<allocator_type>::select_on_container_copy_construction(other.get_allocator())) {
+List<T, Allocator>::List(const List& other) : IList<T>()
+    , node_alloc(std::allocator_traits<allocator_type>::select_on_container_copy_construction(other.node_alloc)) {
     *this = other;
 }
 
