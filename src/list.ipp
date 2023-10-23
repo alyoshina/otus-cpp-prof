@@ -14,7 +14,7 @@ List<T, Allocator>::List(std::initializer_list <T> l) : IList<T>() {
 
 template <typename T, typename Allocator>
 List<T, Allocator>::List(const List& other) : IList<T>()
-    , node_alloc(std::allocator_traits<allocator_type>::select_on_container_copy_construction(other.node_alloc)) {
+    , node_alloc(std::allocator_traits<allocator_type>::select_on_container_copy_construction(other.get_allocator())) {
     *this = other;
 }
 
@@ -47,6 +47,9 @@ template <typename T, typename Allocator>
 List<T, Allocator>& List<T, Allocator>::operator=(const List<T, Allocator>& rhs) {
     if (&rhs != this) {
         clear();
+        if (std::allocator_traits<Allocator>::propagate_on_container_copy_assignment::value) {
+            this->node_alloc = rhs.node_alloc;
+        }
         typename IList<T>::INode* rhs_node = rhs.m_first;
         for (std::size_t i = 0; i < rhs.m_size; ++i, rhs_node = rhs_node->next()) {
             this->push_back(rhs_node->data());
@@ -60,9 +63,11 @@ List<T, Allocator>& List<T, Allocator>::operator=(List<T, Allocator>&& rhs) {
     if (&rhs != this) {
         clear();
         this->move(&rhs);
-        if (this->get_allocator() != rhs.get_allocator()) {
-            this->node_alloc = std::move(rhs.get_allocator());
-        }        
+        if (std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value) {
+            if (this->get_allocator() != rhs.get_allocator()) {
+                this->node_alloc = std::move(rhs.node_alloc);
+            }
+        }          
     }
     return *this;
 }

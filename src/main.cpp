@@ -20,13 +20,14 @@ int main(int argc, char const *argv[])
         // MAP a;
         // MAP b;
         // a[1] = 1;
-        // b = a;
+        // b = std::move(a);
         // b[2] = 2;
         // std::cout << "b: "<< b << std::endl;
         using List_ = List<int, ListAlloc>;
         List_ a;
         a.push_back(1);
-        List_ b(a);
+        List_ b;
+        b = std::move(a);
         b.push_back(2);
         std::cout << "b: "<< b << std::endl;
 

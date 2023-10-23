@@ -55,7 +55,7 @@ protected:
 
     allocator_type node_alloc;
 
-    allocator_type &get_allocator() { return node_alloc; }
+    const allocator_type &get_allocator() const { return node_alloc; }
 };
 
 #include "list.ipp"
