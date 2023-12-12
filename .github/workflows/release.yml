@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-documentation:
-    runs-on: ubuntu-23.04
+    runs-on: ubuntu-22.04
     permissions: write-all
     steps:
       - uses: actions/checkout@v2
@@ -27,7 +27,7 @@ jobs:
           force_orphan: true
           publish_branch: gh-pages
   build:
-    runs-on: ubuntu-23.04
+    runs-on: ubuntu-22.04
     permissions: write-all
     steps:
       - uses: actions/checkout@v3
