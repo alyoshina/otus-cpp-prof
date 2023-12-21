@@ -34,6 +34,7 @@ jobs:
         with:
           submodules: true
       - run: sudo apt-get update -y && sudo apt-get install cmake libboost-program-options-dev -y
+      - run: g++ --version
       - run: cmake . -DPATCH_VERSION=${{ github.run_number }}
       - run: cmake --build .
       - run: cmake --build . --target package
