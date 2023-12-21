@@ -35,6 +35,8 @@ jobs:
           submodules: true
       - run: sudo apt-get update -y && sudo apt-get install gcc-13 g++-13 cmake libboost-program-options-dev -y
       - run: g++ --version
+      - run: which gcc-13
+      - run: which g++-13
       - run: cmake . -DPATCH_VERSION=${{ github.run_number }}
       - run: cmake --build .
       - run: cmake --build . --target package
