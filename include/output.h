@@ -61,13 +61,7 @@ public:
     }
     bool presetting() override {
         out.open(fileName, std::ios::binary);
-        if (!out.is_open()) {
-            //std::cout << "error, file " << fileName << " dosen't open" << std::endl;
-            status = false;
-        } else {
-            status = true;
-        }
-        return status;
+        return status = out.is_open();
     }
     void postsetting() override {
         if (getStatus()) {
