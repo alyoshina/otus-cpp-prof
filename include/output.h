@@ -24,8 +24,8 @@ class ConsoleOutput : public IOutput {
 public:
     ConsoleOutput(std::ostream &o) : out(o) {}
     ~ConsoleOutput() = default;
-    void setName(const std::string& ) {}
-    IOutput& operator<<(const std::string& str) {
+    void setName(const std::string& ) override {}
+    IOutput& operator<<(const std::string& str) override {
         out << str;
         return *this;
     }
@@ -46,8 +46,8 @@ class FileOutput : public IOutput {
 public:
     FileOutput() {}
     ~FileOutput() = default;
-    void setName(const std::string& str) { fileName = str; }
-    IOutput& operator<<(const std::string& str) {
+    void setName(const std::string& str) override { fileName = str; }
+    IOutput& operator<<(const std::string& str) override {
         if (getStatus()) {
             out << str;
         }
