@@ -17,7 +17,7 @@ public:
     //bool isSave() { return isSave; }
     /**
     *  @brief  Load document from file.
-    *  @param[in]  fileName name of file for load
+    *  @param[in]  fileName is name of file for load
     * 
     */
     void loadFromFile(const std::string &fileName) {
@@ -26,7 +26,7 @@ public:
     }
     /**
     *  @brief  Load document to file.
-    *  @param[in]  fileName name of file for load
+    *  @param[in]  fileName is name of file for load
     * 
     */
     void loadToFile(const std::string &fileName) {
@@ -34,26 +34,26 @@ public:
     }
     /**
     *  @brief  Add command to CommandHistory.
-    *  @param[in]  cmd command for add
+    *  @param[in]  cmd is command for add
     */
     void addCommand(std::shared_ptr<Command> cmd) {
         history.add(cmd);
     }
     /**
     *  @brief  Get layer pointer in document.
-    *  @param[out]  layer pointer
+    *  @param[out]  layer is pointer to layer in document
     */
     std::shared_ptr<Layer> getLayer() { return layer; };
 
     /**
     *  @brief  Get features ids list on document layer.
-    *  @param[out]  features ids list
+    *  @param[out]  features are ids list
     */
     std::list<FeatureIdType> getFeaturesIds() { return getLayer()->getFeaturesIds(); }
     /**
     *  @brief  Get feature pointer by feature id.
-    *  @param[in]  id feature id
-    *  @param[out]  feature pointer
+    *  @param[in]  id is feature id
+    *  @param[out]  feature is pointer to feature which found by @a id
     */
     std::shared_ptr<Feature> getFeature(FeatureIdType id) { return getLayer()->getFeature(id); }
 

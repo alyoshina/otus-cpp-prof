@@ -3,7 +3,6 @@
 #include <list>
 #include <memory>
 #include <algorithm>
-
 #include <iostream>
 
 class Subscriber {
@@ -15,18 +14,18 @@ class Publisher {
 public:
     /**
     *  @brief  Add @a sub to subscribers list.
-    *  @param  sub  A shared_ptr .
+    *  @param[in]  sub is shared_ptr to Subscriber.
     * 
-    *  Subscribe sub to notification
+    *  Subscribe @a sub to notification
     */
     void addSubscriber(std::shared_ptr<Subscriber> sub) {
         subscribers.emplace_back(sub);
     }
     /**
     *  @brief  Delete @a sub from subscribers list.
-    *  @param  sub  A shared_ptr .
+    *  @param[in]  sub  is shared_ptr to Subscriber.
     * 
-    *  Unsubscribe sub from notification
+    *  Unsubscribe @a sub from notification
     */
     void deleteSubscriber(std::shared_ptr<Subscriber> sub) {
         auto it = std::remove_if(subscribers.begin(), subscribers.end(),

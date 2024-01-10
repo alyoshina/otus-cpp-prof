@@ -21,10 +21,10 @@ public:
     Controller() = default;
     virtual ~Controller() = default;
     /**
-    *  @brief  Set %model to @a m.
-    *  @param  m  A shared_ptr .
+    *  @brief  Set model to @a m.
+    *  @param[in]  m is shared_ptr to Model.
     * 
-    *  unsubscribe Controller from the previous model and
+    *  Unsubscribe Controller from the previous model and
     *  subscribe Controller to notification from new model
     */
     virtual void setModel(std::shared_ptr<IModel> m) final {
@@ -47,7 +47,7 @@ public:
     };
     /**
     *  @brief  Import document from file.
-    *  @param[in]  fileName name of file for load
+    *  @param[in]  fileName is name of file for load
     * 
     */
     virtual void importFromFile(const std::string &fileName) final {
@@ -57,7 +57,7 @@ public:
     };
     /**
     *  @brief  Export document to file.
-    *  @param[in]  fileName name of file for load
+    *  @param[in]  fileName is name of file for load
     * 
     */
     virtual void exportToFile(const std::string &fileName) final {
@@ -67,8 +67,8 @@ public:
     };
     /**
     *  @brief  Create and add node to document layer.
-    *  @param[in]  x coordinate
-    *  @param[in]  y coordinate
+    *  @param[in]  x is coordinate
+    *  @param[in]  y is coordinate
     * 
     */
     virtual void createNode(int x, int y) final {
@@ -78,7 +78,7 @@ public:
     }
     /**
     *  @brief  Delete node from document layer.
-    *  @param[in]  id feature id that needs to be deleted
+    *  @param[in]  id is feature id that needs to be deleted
     * 
     */
     virtual void deleteNode(FeatureIdType id) final {
@@ -87,7 +87,7 @@ public:
         }
     };
     /**
-    *  @brief  notify about model change.
+    *  @brief  Notify about model change.
     * 
     *  Notify subscribers (view) about model change and need to update
     */

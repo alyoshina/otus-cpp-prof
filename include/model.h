@@ -34,7 +34,7 @@ public:
     }
     /**
     *  @brief  Load document from file.
-    *  @param[in]  fileName name of file for load
+    *  @param[in]  fileName is name of file for load
     * 
     *  Create new document, load data from file to created document 
     *  and notify subscribers on update
@@ -46,7 +46,7 @@ public:
     }
     /**
     *  @brief  Load document to file.
-    *  @param[in]  fileName name of file for load
+    *  @param[in]  fileName is name of file for load
     * 
     *  Load data to file and notify subscribers on update
     */
@@ -58,8 +58,8 @@ public:
     }
     /**
     *  @brief  Create and add node to document layer.
-    *  @param[in]  x coordinate
-    *  @param[in]  y coordinate
+    *  @param[in]  x is coordinate
+    *  @param[in]  y is coordinate
     * 
     *  Add node to document layer using AddNodeCommand and notify subscribers on update
     */
@@ -70,7 +70,7 @@ public:
     }
     /**
     *  @brief  Delete node from document layer.
-    *  @param[in]  id feature id that needs to be deleted
+    *  @param[in]  id is feature id that needs to be deleted
     * 
     *  Delete node from document layer using RemoveNodeCommand and notify subscribers on update
     */
@@ -81,7 +81,7 @@ public:
     }
     /**
     *  @brief  Get features ids list on document layer.
-    *  @param[out]  features ids list
+    *  @param[out]  features are ids list
     */
     std::list<FeatureIdType> getFeaturesIds() { return document->getFeaturesIds(); }
 private:
