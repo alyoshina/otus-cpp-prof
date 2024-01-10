@@ -16,9 +16,9 @@ public:
 
     /**
     *  @brief  Set %controller to @a contr.
-    *  @param  contr  A shared_ptr .
+    *  @param[in]  contr  a shared_ptr to Controller.
     * 
-    *  unsubscribe View from the previous controller and
+    *  Unsubscribe View from the previous controller and
     *  subscribe View to notification from new controller
     */
     void setController(std::shared_ptr<IController> contr) {
@@ -37,7 +37,7 @@ private:
 };
 
 /**
- * @brief graphic vector editor
+ * @brief Graphic vector editor
  */
 int main(int argc, char const *argv[])
 {
