@@ -20,6 +20,7 @@ target_include_directories(editor PRIVATE
     
 set_target_properties(editor PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED ON)
 
+
 install(TARGETS editor RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
