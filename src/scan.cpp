@@ -15,24 +15,27 @@ namespace {
 */
 std::multimap<std::string, fs::path> getDoubleFile(std::multimap<std::size_t, File> &map) {
     std::multimap<std::string, fs::path> out;
-    for(auto it = map.begin(), end = map.end(); it != end; it = map.upper_bound(it->first)) {
-        auto key = it->first;
-        auto r = map.equal_range(key);
-        while (r.first != map.end()) {
-            auto f_it = r.first;
-            for (auto i = std::next(f_it); i != r.second;) {
-                if ((*f_it).second == (*i).second) {
-                    out.insert({(*f_it).second.getFileHash(), (*i).second.path});
-                    i = map.erase(i);
+    auto key = map.size() ? map.begin()->first : 0;
+    for(auto it = map.begin(), end = map.end(); it != end; it = map.upper_bound(key)) {
+        key = it->first;
+        auto rangeRair = map.equal_range(key);
+        while (rangeRair.first != map.end() && rangeRair.first != rangeRair.second) {
+            auto firstIt = rangeRair.first;
+            bool equals = false;
+            for (auto nextIt = std::next(firstIt); nextIt != rangeRair.second;) {
+                if (firstIt->second == nextIt->second) {
+                    out.insert({firstIt->second.getFileHash(), nextIt->second.path});
+                    equals = true;
+                    nextIt = map.erase(nextIt);
                 } else {
-                    ++i;
+                    ++nextIt;
                 }
             }
-            if (!(*f_it).second.getFileHash().empty()) {
-                out.insert({(*f_it).second.getFileHash(), (*f_it).second.path});
+            if (!firstIt->second.getFileHash().empty() & equals) {
+                out.insert({firstIt->second.getFileHash(), firstIt->second.path});
             }
-            map.erase(f_it);
-            r = map.equal_range(key);
+            map.erase(firstIt);
+            rangeRair = map.equal_range(key);
         }
     }
     return out;

@@ -62,7 +62,7 @@ void options(int argc, char** argv
  */
 
 int main(int argc, char** argv)
-{   
+{
     try {
         //processing сommand line argument
         po::options_description desc {"Options"};
